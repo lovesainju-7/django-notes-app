@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         PATH = "/Applications/Docker.app/Contents/Resources/bin:/usr/local/bin:$PATH"
-        DOCKERHUB_USERNAME = "lovesainju"  // Replace with your actual Docker Hub username and password
+        DOCKERHUB_USERNAME = "lovesainju"  // Replace with your actual Docker Hub username 
     }
     stages{
         stage("Code"){
