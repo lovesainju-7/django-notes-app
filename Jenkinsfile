@@ -47,6 +47,7 @@ pipeline {
                     docker rm notes-app || true
                     docker run -d --name notes-app -p 8000:8000 notes-app:latest
                 """
+            
             }
         }
     }
