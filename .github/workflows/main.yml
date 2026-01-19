@@ -1,70 +1,56 @@
-name: CI - JavaScript & Python
+name: Docker CI/CD
 
 on:
   push:
-    branches: ["main", "develop"]
+    branches: ["main"]
   pull_request:
-    branches: ["main", "develop"]
+    branches: ["main"]
 
 jobs:
-  build-and-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-        python-version: ["3.10"]
+    env:
+      DOCKERHUB_USERNAME: lovesainju
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --------------------
-      # JavaScript / Node.js
-      # --------------------
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+      # 2. Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
 
-      - name: Install JS dependencies
+      # 3. Build Docker image
+      - name: Build Docker image
         run: |
-          if [ -f package.json ]; then
-            npm ci
-          fi
+          echo "Building Docker image..."
+          docker build -t notes-app:latest .
 
-      - name: Build JS project
+      # 4. Run tests (optional)
+      - name: Test Docker image
         run: |
-          if [ -f package.json ]; then
-            npm run build --if-present
-          fi
+          echo "Running tests..."
+          # Example: run container and test health
+          docker run --rm notes-app:latest python manage.py test
 
-      - name: Test JS project
-        run: |
-          if [ -f package.json ]; then
-            npm test
-          fi
+      # # 5. Log in and push to Docker Hub
 
-      # --------------------
-      # Python
-      # --------------------
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: "pip"
+      # - name: Log in to Docker Hub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Install Python dependencies
-        run: |
-          if [ -f requirements.txt ]; then
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-          fi
+      # - name: Push Docker image
+      #   run: |
+      #     docker tag notes-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/notes-app:latest
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/notes-app:latest
 
-      - name: Test Python project
-        run: |
-          if [ -d tests ] || [ -f pytest.ini ]; then
-            pip install pytest
-            pytest
-          fi
+      # # 6. Deploy container
+      # - name: Deploy Docker container
+      #   run: |
+      #     echo "Deploying container..."
+      #     docker stop notes-app || true
+      #     docker rm notes-app || true
+      #     docker run -d --name notes-app -p 8000:8000 ${{ secrets.DOCKERHUB_USERNAME }}/notes-app:latest
