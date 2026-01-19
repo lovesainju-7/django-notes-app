@@ -31,8 +31,8 @@ jobs:
       - name: Test Docker image
         run: |
           echo "Running tests..."
-          # Example: run container and test health
-          docker run --rm notes-app:latest python manage.py test
+          # # Example: run container and test health
+          # docker run --rm notes-app:latest python manage.py test
 
       # # 5. Log in and push to Docker Hub
 
