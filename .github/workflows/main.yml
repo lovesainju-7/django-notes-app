@@ -17,11 +17,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            # Navigate to application directory
-            cd /opt/noteappdjango
+            # # Navigate to application directory
+            # cd /opt/noteappdjango
 
-            # Pull latest code from GitHub
-            git pull origin main
+            # # Pull latest code from GitHub
+            # git pull origin main
 
             # Rebuild and restart Docker containers
             docker-compose down
