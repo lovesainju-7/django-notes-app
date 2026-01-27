@@ -32,19 +32,14 @@ jobs:
 
       # STEP D: SSH into server and deploy
       - name: Deploy to Server
-  uses: appleboy/ssh-action@v1.0.0
-  with:
-    host: ${{ secrets.SSH_HOST }}
-    username: ${{ secrets.SSH_USERNAME }}
-    key: ${{ secrets.SSH_PRIVATE_KEY }}
-    script: |
-      # Pull latest image
-      docker pull lovesainju/notes-app:latest
-
-      # Restart with docker-compose
-      cd /opt/noteappdjango
-      docker-compose down
-      docker-compose up -d
-
-      # Optional: Restart nginx if using reverse proxy
-      # sudo systemctl restart nginx
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /opt/noteappdjango
+            docker-compose pull
+            docker-compose up -d
+            docker image prune -f
