@@ -269,3 +269,24 @@ a {
 .list-note-btn:hover {
   background-color: #e0b800;
 }
+
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-header-right {
+  display: flex;
+  gap: 10px;
+}
+
+.list-note-btn {
+  background-color: #f4c430;
+  border: none;
+  padding: 6px 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
