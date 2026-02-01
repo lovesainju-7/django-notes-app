@@ -247,3 +247,25 @@ a {
 .note textarea::-webkit-scrollbar {
   display: none;
 }
+
+/* Love self code */
+
+.top-right-button {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.list-note-btn {
+  padding: 8px 14px;
+  background-color: #f4c430;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.list-note-btn:hover {
+  background-color: #e0b800;
+}
